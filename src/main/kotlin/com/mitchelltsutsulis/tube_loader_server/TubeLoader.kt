@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class TubeLoaderServerApplication
+class TubeLoader
 
 fun main(args: Array<String>) {
-	runApplication<TubeLoaderServerApplication>(*args)
+	runApplication<TubeLoader>(*args)
 }
