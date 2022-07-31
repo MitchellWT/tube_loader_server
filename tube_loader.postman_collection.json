@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "7b3094e8-2be2-4732-a9b0-f5541b3bd898",
+		"name": "Tube Loader",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Show Videos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8383/videos",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"videos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Videos with QueryParams Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8383/videos?amount=10&offset=10",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"videos"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "10"
+						},
+						{
+							"key": "offset",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Video",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8383/video/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"video",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Store Video",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"video_id\": 1,\n    \"title\": \"Cool Vid\",\n    \"thumbnail\": \"https://some_cool_thumbnail_url\",\n    \"queued\": false\n}"
+				},
+				"url": {
+					"raw": "localhost:8383/video",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"video"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Toggle Video Queued",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8383/video/:id/queued",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"video",
+						":id",
+						"queued"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Video",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8383/video/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"video",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Queue State",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8383/queue",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"queue"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Toggle Queue State",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8383/queue",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"queue"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
