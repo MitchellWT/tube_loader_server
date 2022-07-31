@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class API {
     @GetMapping("videos")
-    fun showVideos(@RequestParam amount: Int, @RequestParam offset: Int): Map<String, String> {
+    fun showVideos(@RequestParam(defaultValue="10") amount: Int, @RequestParam(defaultValue="0") offset: Int): Map<String, String> {
         return mapOf(Pair("amount", amount.toString()), Pair("offset", offset.toString()))
     }
 
