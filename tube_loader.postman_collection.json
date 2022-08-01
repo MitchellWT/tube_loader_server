@@ -29,7 +29,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8383/videos?amount=10&offset=10",
+					"raw": "localhost:8383/videos?amount=10&page=1",
 					"host": [
 						"localhost"
 					],
@@ -43,8 +43,8 @@
 							"value": "10"
 						},
 						{
-							"key": "offset",
-							"value": "10"
+							"key": "page",
+							"value": "1"
 						}
 					]
 				}

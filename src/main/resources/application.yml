@@ -1,3 +1,12 @@
 server:
   port: 8383
-  
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:db
+    username: user
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    generate-ddl: true
+    spring.jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
