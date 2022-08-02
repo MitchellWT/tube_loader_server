@@ -9,7 +9,7 @@ import javax.persistence.*
 open class Video(
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    open var id: Long,
+    open var id: Long? = null,
     @Column(nullable=false)
     open var downloaded: Boolean = false,
     @Column(nullable=false)
