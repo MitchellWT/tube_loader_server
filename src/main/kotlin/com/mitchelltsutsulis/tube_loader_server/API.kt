@@ -57,7 +57,7 @@ class API(val videoRepository: VideoRepository) {
             val res = objectMapper.writeValueAsString(mapOf("res" to "success"))
             video.queued = !video.queued
             videoRepository.save(video)
-            return ResponseEntity(res, HttpStatus.OK)
+            ResponseEntity(res, HttpStatus.OK)
         } catch (e: Exception) {
             val res = objectMapper.writeValueAsString(mapOf("res" to "fail", "message" to e.message))
             ResponseEntity(res, HttpStatus.INTERNAL_SERVER_ERROR)
