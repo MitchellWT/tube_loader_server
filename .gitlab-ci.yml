@@ -1,8 +1,6 @@
 unit-test:
-  image: docker:latest
+  image: eclipse-temurin:11
   stage: build
-  services:
-    - eclipse-temurin:11
   script:
     - ./gradlew clean test
 
