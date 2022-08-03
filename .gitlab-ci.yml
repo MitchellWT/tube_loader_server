@@ -1,16 +1,18 @@
 unit-test:
   image: docker:latest
   stage: build
+  services:
+    - java:11
   script:
     - ./gradlew clean test
 
-build-and-push:
-  needs: [unit-test]
-  image: docker:latest
-  stage: build
-  services:
-    - docker:dind
-  script:
-    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD registry.mitchelltsutsulis.com
-    - docker build -t registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server .
-    - docker push registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server
+#build-and-push:
+#  needs: [unit-test]
+#  image: docker:latest
+#  stage: build
+#  services:
+#    - docker:dind
+#  script:
+#    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD registry.mitchelltsutsulis.com
+#    - docker build -t registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server .
+#    - docker push registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server
