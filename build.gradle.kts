@@ -27,6 +27,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.hibernate:hibernate-core")
 	implementation("com.h2database:h2")
+	implementation("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.hibernate:hibernate-testing")
 	// testImplementation("org.springframework.security:spring-security-test")
