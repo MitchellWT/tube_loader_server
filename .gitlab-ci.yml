@@ -1,0 +1,16 @@
+test:
+  image: docker:latest
+  stage: test
+  script:
+    - ./gradlew clean test
+
+build-and-push:
+  needs: [test]
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  scipts:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD registry.mitchelltsutsulis.com
+    - docker build -t registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server .
+    - docker push registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server
