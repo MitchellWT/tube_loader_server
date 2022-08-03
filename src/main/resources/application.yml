@@ -7,6 +7,11 @@ spring:
     username: user
     password: password
     driverClassName: org.h2.Driver
+  # datasource:
+  #   url: jdbc:postgresql://localhost:5432/tube_loader
+  #   username: username
+  #   password: password
+  #   driverClassName: org.postgresql.Driver
   jpa:
     generate-ddl: true
     spring.jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
