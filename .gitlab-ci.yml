@@ -1,16 +1,16 @@
-test:
+unit-test:
   image: docker:latest
-  stage: test
+  stage: build
   script:
     - ./gradlew clean test
 
 build-and-push:
-  needs: [test]
+  needs: [unit-test]
   image: docker:latest
   stage: build
   services:
     - docker:dind
-  scipts:
+  script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD registry.mitchelltsutsulis.com
     - docker build -t registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server .
     - docker push registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server
