@@ -1,8 +1,10 @@
 unit-test:
-  image: eclipse-temurin:11
+  image: gradle:alpine
   stage: build
+  variables:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   script:
-    - ./gradlew clean test
+    - gradle clean test
 
 #build-and-push:
 #  needs: [unit-test]
