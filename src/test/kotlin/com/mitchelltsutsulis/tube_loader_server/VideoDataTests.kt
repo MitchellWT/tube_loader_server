@@ -54,7 +54,7 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
 		assertThat(updatedVideo.title).isEqualTo(updatedTitle)
 		assertThat(updatedVideo.queued).isEqualTo(false)
 		assertThat(updatedVideo.downloaded).isEqualTo(true)
-		assertThat(updatedVideo.downloadedAt).isEqualTo(downloadTime)
+		assertThat(updatedVideo.downloadedAt!!.time).isEqualTo(downloadTime.time)
 	}
 
 	@Test
