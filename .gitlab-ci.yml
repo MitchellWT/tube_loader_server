@@ -4,7 +4,7 @@ unit-test:
   variables:
     GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   script:
-    - gradle clean test --scan
+    - gradle clean test --info
 
 #build-and-push:
 #  needs: [unit-test]
