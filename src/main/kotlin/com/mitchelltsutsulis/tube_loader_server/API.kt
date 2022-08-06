@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.*
 class API(val videoRepository: VideoRepository) {
     val objectMapper = jacksonObjectMapper()
 
-    @GetMapping("videos", produces=["application/json"])
-    fun showVideos(@RequestParam(defaultValue="10") amount: Int, @RequestParam(defaultValue="0") page: Int): ResponseEntity<String> {
+    @GetMapping("videos", produces = ["application/json"])
+    fun showVideos(
+        @RequestParam(defaultValue = "10") amount: Int,
+        @RequestParam(defaultValue = "0") page: Int
+    ): ResponseEntity<String> {
         return try {
             val videos = videoRepository.findAll(PageRequest.of(page, amount, Sort.by("id")))
             val res = objectMapper.writeValueAsString(videos.toList())
@@ -25,7 +28,7 @@ class API(val videoRepository: VideoRepository) {
         }
     }
 
-    @GetMapping("video/{id}", produces=["application/json"])
+    @GetMapping("video/{id}", produces = ["application/json"])
     fun showVideo(@PathVariable id: Long): ResponseEntity<String> {
         return try {
             val video = videoRepository.findById(id).get()
@@ -37,7 +40,7 @@ class API(val videoRepository: VideoRepository) {
         }
     }
 
-    @PostMapping("video", produces=["application/json"])
+    @PostMapping("video", produces = ["application/json"])
     fun storeVideo(@RequestBody videoJSON: String): ResponseEntity<String> {
         return try {
             val video = objectMapper.readValue(videoJSON, Video::class.java)
@@ -50,7 +53,7 @@ class API(val videoRepository: VideoRepository) {
         }
     }
 
-    @PutMapping("video/{id}/queued", produces=["application/json"])
+    @PutMapping("video/{id}/queued", produces = ["application/json"])
     fun toggleQueued(@PathVariable id: Long): ResponseEntity<String> {
         return try {
             val video = videoRepository.findById(id).get()
@@ -64,7 +67,7 @@ class API(val videoRepository: VideoRepository) {
         }
     }
 
-    @DeleteMapping("video/{id}", produces=["application/json"])
+    @DeleteMapping("video/{id}", produces = ["application/json"])
     fun destroyVideo(@PathVariable id: Long): ResponseEntity<String> {
         return try {
             val res = objectMapper.writeValueAsString(mapOf("res" to "success"))

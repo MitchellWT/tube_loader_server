@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class TubeLoader
 
 fun main(args: Array<String>) {
-	runApplication<TubeLoader>(*args)
+    runApplication<TubeLoader>(*args)
 }
