@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class API(val videoRepository: VideoRepository) {
+class API(val videoRepository: VideoRepository, val videoQueue: VideoQueue) {
     val objectMapper = jacksonObjectMapper()
 
     @GetMapping("videos", produces = ["application/json"])
@@ -79,13 +79,25 @@ class API(val videoRepository: VideoRepository) {
         }
     }
 
-    @GetMapping("queue")
-    fun showQueue(): Map<String, String> {
-        return mapOf()
+    @GetMapping("queue", produces = ["application/json"])
+    fun showQueue(): ResponseEntity<String> {
+        return try {
+            val res = objectMapper.writeValueAsString(mapOf("active" to videoQueue.getQueue()))
+            ResponseEntity(res, HttpStatus.OK)
+        } catch (e: Exception) {
+            val res = objectMapper.writeValueAsString(mapOf("res" to "fail", "message" to e.message))
+            ResponseEntity(res, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 
-    @PutMapping("queue")
-    fun toggleQueue(): Map<String, String> {
-        return mapOf()
+    @PutMapping("queue", produces = ["application/json"])
+    fun toggleQueue(): ResponseEntity<String> {
+        return try {
+            val res = objectMapper.writeValueAsString(mapOf("active" to videoQueue.toggleQueue()))
+            ResponseEntity(res, HttpStatus.OK)
+        } catch (e: Exception) {
+            val res = objectMapper.writeValueAsString(mapOf("res" to "fail", "message" to e.message))
+            ResponseEntity(res, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 }
