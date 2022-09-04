@@ -22,5 +22,7 @@ open class Video(
     @Column(nullable = false)
     open var thumbnail: String,
     @Column(name = "downloaded_at")
-    open var downloadedAt: Timestamp? = null
+    open var downloadedAt: Timestamp? = null,
+    @Column(nullable = true)
+    open var directory: String = ""
 )
