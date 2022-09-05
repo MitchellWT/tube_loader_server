@@ -20,7 +20,7 @@ class VideoQueueTests(
             title = "Face",
             thumbnail = "https://i.ytimg.com/vi/Yg57AvUBsWI/default.jpg"
         )
-        videoRepository.save(video)
+        val videoSaved = videoRepository.save(video)
         videoQueue.downloadVideo()
         val noQueueVideo = videoRepository.findFirstInQueue()
 
@@ -34,5 +34,6 @@ class VideoQueueTests(
 
         thumbnail.delete()
         videoFile.delete()
+        videoRepository.deleteById(videoSaved.id!!)
     }
 }

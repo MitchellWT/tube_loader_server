@@ -31,6 +31,8 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
 
         assertThat(videoSaved.thumbnail).isEqualTo(video.thumbnail)
         assertThat(repoVideo.thumbnail).isEqualTo(video.thumbnail)
+
+        videoRepository.deleteById(videoSaved.id!!)
     }
 
     @Test
@@ -55,6 +57,8 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
         assertThat(updatedVideo.queued).isEqualTo(false)
         assertThat(updatedVideo.downloaded).isEqualTo(true)
         assertThat(updatedVideo.downloadedAt!!.time).isEqualTo(downloadTime.time)
+
+        videoRepository.deleteById(videoSaved.id!!)
     }
 
     @Test
@@ -79,7 +83,7 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
             thumbnail = "https://cool_thumbnail",
             queued = false
         )
-        videoRepository.save(video)
+        val videoSaved = videoRepository.save(video)
         val videoQueued = Video(
             videoId = "Very Cool Vid Id",
             title = "Very Cool Vid",
@@ -89,6 +93,9 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
         val videoInQueue = videoRepository.findFirstInQueue().get()
 
         assertThat(videoInQueue.videoId).isEqualTo(videoQueuedSaved.videoId)
+
+        videoRepository.deleteById(videoSaved.id!!)
+        videoRepository.deleteById(videoQueuedSaved.id!!)
     }
 
     @Test
@@ -98,7 +105,7 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
             title = "Epic Vid",
             thumbnail = "https://epic_thumbnail"
         )
-        videoRepository.save(video)
+        val videoSaved = videoRepository.save(video)
         val videoInQueue = videoRepository.findFirstInQueue().get()
 
         assertThat(videoInQueue.videoId).isEqualTo(video.videoId)
@@ -107,5 +114,7 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
         val noQueueVideo = videoRepository.findFirstInQueue()
 
         assertThat(noQueueVideo.isEmpty).isEqualTo(true)
+
+        videoRepository.deleteById(videoSaved.id!!)
     }
 }
