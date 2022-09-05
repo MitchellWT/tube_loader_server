@@ -6,8 +6,14 @@ unit-test:
   before_script:
     - apk update
     - apk add yt-dlp
+    - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - gradle clean test --info
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
 
 #build-and-push:
 #  needs: [unit-test]
