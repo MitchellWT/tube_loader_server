@@ -18,6 +18,7 @@ spring:
 
 download:
   video-storage: "/opt/tube_loader/videos/"
+  download-cron: "*/30 * * * * *"
   downloader-config:
     "--no-colors
     --retries infinite

@@ -102,6 +102,10 @@ class API(val videoRepository: VideoRepository, val videoQueue: VideoQueue) {
     fun toggleQueue(): ResponseEntity<String> {
         return try {
             val res = objectMapper.writeValueAsString(mapOf("active" to videoQueue.toggleQueue()))
+            if (videoQueue.getQueue()) {
+                val downloadThread = Thread { videoQueue.downloadVideo() }
+                downloadThread.start()
+            }
             ResponseEntity(res, HttpStatus.OK)
         } catch (e: Exception) {
             val res = objectMapper.writeValueAsString(mapOf("res" to "fail", "message" to e.message))

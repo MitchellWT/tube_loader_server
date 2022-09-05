@@ -21,6 +21,7 @@ class VideoQueueTests(
             thumbnail = "https://i.ytimg.com/vi/Yg57AvUBsWI/default.jpg"
         )
         val videoSaved = videoRepository.save(video)
+        if (!videoQueue.getQueue()) videoQueue.toggleQueue()
         videoQueue.downloadVideo()
         val noQueueVideo = videoRepository.findFirstInQueue()
 
