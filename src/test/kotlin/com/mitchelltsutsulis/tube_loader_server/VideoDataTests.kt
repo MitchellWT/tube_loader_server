@@ -31,6 +31,8 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
 
         assertThat(videoSaved.thumbnail).isEqualTo(video.thumbnail)
         assertThat(repoVideo.thumbnail).isEqualTo(video.thumbnail)
+
+        videoRepository.deleteById(videoSaved.id!!)
     }
 
     @Test
@@ -55,6 +57,8 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
         assertThat(updatedVideo.queued).isEqualTo(false)
         assertThat(updatedVideo.downloaded).isEqualTo(true)
         assertThat(updatedVideo.downloadedAt!!.time).isEqualTo(downloadTime.time)
+
+        videoRepository.deleteById(videoSaved.id!!)
     }
 
     @Test
@@ -69,5 +73,48 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
         assertThat(videoRepository.findById(videoSaved.id!!).isPresent).isEqualTo(true)
         videoRepository.deleteById(videoSaved.id!!)
         assertThat(videoRepository.findById(videoSaved.id!!).isPresent).isEqualTo(false)
+    }
+
+    @Test
+    fun `test pulling the first video in the queue`() {
+        val video = Video(
+            videoId = "Cool Vid Id",
+            title = "Cool Vid",
+            thumbnail = "https://cool_thumbnail",
+            queued = false
+        )
+        val videoSaved = videoRepository.save(video)
+        val videoQueued = Video(
+            videoId = "Very Cool Vid Id",
+            title = "Very Cool Vid",
+            thumbnail = "https://very_cool_thumbnail"
+        )
+        val videoQueuedSaved = videoRepository.save(videoQueued)
+        val videoInQueue = videoRepository.findFirstInQueue().get()
+
+        assertThat(videoInQueue.videoId).isEqualTo(videoQueuedSaved.videoId)
+
+        videoRepository.deleteById(videoSaved.id!!)
+        videoRepository.deleteById(videoQueuedSaved.id!!)
+    }
+
+    @Test
+    fun `test video queue removal`() {
+        val video = Video(
+            videoId = "Epic Vid Id",
+            title = "Epic Vid",
+            thumbnail = "https://epic_thumbnail"
+        )
+        val videoSaved = videoRepository.save(video)
+        val videoInQueue = videoRepository.findFirstInQueue().get()
+
+        assertThat(videoInQueue.videoId).isEqualTo(video.videoId)
+
+        videoRepository.removeFromQueue(videoInQueue.id!!)
+        val noQueueVideo = videoRepository.findFirstInQueue()
+
+        assertThat(noQueueVideo.isEmpty).isEqualTo(true)
+
+        videoRepository.deleteById(videoSaved.id!!)
     }
 }
