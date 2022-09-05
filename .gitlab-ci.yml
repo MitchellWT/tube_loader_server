@@ -5,7 +5,7 @@ unit-test:
     GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   before_script:
     - apk update
-    - apt add yt-dlp
+    - apk add yt-dlp
   script:
     - gradle clean test --info
 
