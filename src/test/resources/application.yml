@@ -13,6 +13,7 @@ spring:
 
 download:
   video-storage: "./"
+  download-cron: "1 1 1 1 1 1"
   downloader-config:
     - "--no-colors"
     - "--retries"
