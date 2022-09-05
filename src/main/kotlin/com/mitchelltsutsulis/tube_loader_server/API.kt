@@ -46,6 +46,10 @@ class API(val videoRepository: VideoRepository, val videoQueue: VideoQueue) {
             val video = objectMapper.readValue(videoJSON, Video::class.java)
             val res = objectMapper.writeValueAsString(mapOf("res" to "success"))
             videoRepository.save(video)
+            if (video.queued) {
+                val downloadThread = Thread { videoQueue.downloadVideo() }
+                downloadThread.start()
+            }
             ResponseEntity(res, HttpStatus.OK)
         } catch (e: Exception) {
             val res = objectMapper.writeValueAsString(mapOf("res" to "fail", "message" to e.message))
@@ -60,6 +64,10 @@ class API(val videoRepository: VideoRepository, val videoQueue: VideoQueue) {
             val res = objectMapper.writeValueAsString(mapOf("res" to "success"))
             video.queued = !video.queued
             videoRepository.save(video)
+            if (video.queued) {
+                val downloadThread = Thread { videoQueue.downloadVideo() }
+                downloadThread.start()
+            }
             ResponseEntity(res, HttpStatus.OK)
         } catch (e: Exception) {
             val res = objectMapper.writeValueAsString(mapOf("res" to "fail", "message" to e.message))
@@ -94,6 +102,10 @@ class API(val videoRepository: VideoRepository, val videoQueue: VideoQueue) {
     fun toggleQueue(): ResponseEntity<String> {
         return try {
             val res = objectMapper.writeValueAsString(mapOf("active" to videoQueue.toggleQueue()))
+            if (videoQueue.getQueue()) {
+                val downloadThread = Thread { videoQueue.downloadVideo() }
+                downloadThread.start()
+            }
             ResponseEntity(res, HttpStatus.OK)
         } catch (e: Exception) {
             val res = objectMapper.writeValueAsString(mapOf("res" to "fail", "message" to e.message))

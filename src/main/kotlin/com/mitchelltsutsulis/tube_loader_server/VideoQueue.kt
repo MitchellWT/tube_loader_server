@@ -15,6 +15,7 @@ class VideoQueue(val videoRepository: VideoRepository, val downloadConfig: Downl
 
     @Scheduled(cron = "#{downloadConfig.downloadCron}")
     fun downloadVideo() {
+        if (!queueActive.get()) return
         if (downloadLock.tryLock()) {
             val videoOpt = videoRepository.findFirstInQueue()
             if (videoOpt.isEmpty) return
