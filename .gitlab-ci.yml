@@ -3,6 +3,9 @@ unit-test:
   stage: build
   variables:
     GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  before_script:
+    - apk update
+    - apt add yt-dlp
   script:
     - gradle clean test --info
 
