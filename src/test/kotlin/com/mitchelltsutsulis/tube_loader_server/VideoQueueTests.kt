@@ -27,8 +27,8 @@ class VideoQueueTests(
 
         assertThat(noQueueVideo.isEmpty).isEqualTo(true)
 
-        val thumbnail = File("Face [Yg57AvUBsWI].jpg")
-        val videoFile = File("Face [Yg57AvUBsWI].mp4")
+        val thumbnail = File("Face.jpg")
+        val videoFile = File("Face.mp4")
 
         assertThat(thumbnail.exists()).isEqualTo(true)
         assertThat(videoFile.exists()).isEqualTo(true)
