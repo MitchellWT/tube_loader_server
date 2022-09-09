@@ -18,7 +18,10 @@ class VideoQueue(val videoRepository: VideoRepository, val downloadConfig: Downl
         if (!queueActive.get()) return
         if (downloadLock.tryLock()) {
             val videoOpt = videoRepository.findFirstInQueue()
-            if (videoOpt.isEmpty) return
+            if (videoOpt.isEmpty) {
+                downloadLock.unlock()
+                return
+            }
             val video = videoOpt.get()
             val processArgs = listOf("yt-dlp", *(downloadConfig.downloaderConfig), video.videoId)
             val downloadPB = ProcessBuilder(processArgs)
