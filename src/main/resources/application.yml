@@ -20,7 +20,9 @@ download:
   video-storage: "/opt/tube_loader/videos/"
   download-cron: "*/30 * * * * *"
   downloader-config:
-    "--no-colors
-    --retries infinite
-    --write-thumbnail
-    --format mp4"
+    - "--no-colors"
+    - "--retries"
+    - "infinite"
+    - "--write-thumbnail"
+    - "--format"
+    - "mp4"
