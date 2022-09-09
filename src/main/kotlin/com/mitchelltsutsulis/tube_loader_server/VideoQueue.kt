@@ -23,7 +23,13 @@ class VideoQueue(val videoRepository: VideoRepository, val downloadConfig: Downl
                 return
             }
             val video = videoOpt.get()
-            val processArgs = listOf("yt-dlp", *(downloadConfig.downloaderConfig), video.videoId)
+            val processArgs = listOf(
+                "yt-dlp",
+                *(downloadConfig.downloaderConfig),
+                "--output",
+                "${downloadConfig.videoStorage}${video.title}.%(ext)s",
+                video.videoId
+            )
             val downloadPB = ProcessBuilder(processArgs)
             do {
                 val downloadProcess = downloadPB.start()
