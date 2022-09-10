@@ -15,6 +15,40 @@ class API(val videoRepository: VideoRepository, val videoQueue: VideoQueue) {
     private val logger = LoggerFactory.getLogger(javaClass)
     private val objectMapper = jacksonObjectMapper()
 
+    @GetMapping("videos/downloaded", produces = ["application/json"])
+    fun showDownloaded(
+        @RequestParam(defaultValue = "10") amount: Int,
+        @RequestParam(defaultValue = "0") page: Int
+    ): ResponseEntity<String> {
+        return try {
+            val videos = videoRepository.findAllDownloaded(PageRequest.of(page, amount, Sort.by("downloaded_at")))
+            val res = objectMapper.writeValueAsString(videos)
+            logger.info("showDownloaded SUCCESS res: $res")
+            ResponseEntity(res, HttpStatus.OK)
+        } catch (e: Exception) {
+            val res = objectMapper.writeValueAsString(mapOf("res" to "fail", "message" to e.message))
+            logger.info("showDownloaded FAIL res: $res")
+            ResponseEntity(res, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    @GetMapping("videos/not/downloaded", produces = ["application/json"])
+    fun showNotDownloaded(
+        @RequestParam(defaultValue = "10") amount: Int,
+        @RequestParam(defaultValue = "0") page: Int
+    ): ResponseEntity<String> {
+        return try {
+            val videos = videoRepository.findAllNotDownloaded(PageRequest.of(page, amount, Sort.by("id")))
+            val res = objectMapper.writeValueAsString(videos)
+            logger.info("showNotDownloaded SUCCESS res: $res")
+            ResponseEntity(res, HttpStatus.OK)
+        } catch (e: Exception) {
+            val res = objectMapper.writeValueAsString(mapOf("res" to "fail", "message" to e.message))
+            logger.info("showNotDownloaded FAIL res: $res")
+            ResponseEntity(res, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
     @GetMapping("videos", produces = ["application/json"])
     fun showVideos(
         @RequestParam(defaultValue = "10") amount: Int,
@@ -69,13 +103,13 @@ class API(val videoRepository: VideoRepository, val videoQueue: VideoQueue) {
     fun toggleQueued(@PathVariable id: Long): ResponseEntity<String> {
         return try {
             val video = videoRepository.findById(id).get()
-            val res = objectMapper.writeValueAsString(mapOf("res" to "success"))
             video.queued = !video.queued
-            videoRepository.save(video)
-            if (video.queued) {
+            val toggledVideo = videoRepository.save(video)
+            if (toggledVideo.queued) {
                 val downloadThread = Thread { videoQueue.downloadVideo() }
                 downloadThread.start()
             }
+            val res = objectMapper.writeValueAsString(mapOf("active" to toggledVideo.queued))
             logger.info("toggleQueued SUCCESS res: $res")
             ResponseEntity(res, HttpStatus.OK)
         } catch (e: Exception) {
