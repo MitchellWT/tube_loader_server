@@ -22,7 +22,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	// implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.hibernate:hibernate-core:5.6.10.Final")

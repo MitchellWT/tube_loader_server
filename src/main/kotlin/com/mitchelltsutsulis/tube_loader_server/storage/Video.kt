@@ -21,6 +21,7 @@ open class Video(
     open var title: String,
     @Column(nullable = false)
     open var thumbnail: String,
+    @JsonProperty("downloaded_at")
     @Column(name = "downloaded_at")
     open var downloadedAt: Timestamp? = null,
     @Column(nullable = true)
