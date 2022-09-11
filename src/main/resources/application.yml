@@ -26,3 +26,7 @@ download:
     - "--write-thumbnail"
     - "--format"
     - "mp4"
+
+account:
+  username: "username"
+  password: "password"
