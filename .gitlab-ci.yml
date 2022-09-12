@@ -1,6 +1,7 @@
 unit-test:
   image: gradle:alpine
   stage: build
+  timeout: 10 minutes
   variables:
     GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   before_script:
