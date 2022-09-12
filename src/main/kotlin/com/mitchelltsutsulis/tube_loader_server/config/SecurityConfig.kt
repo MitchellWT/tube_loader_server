@@ -13,8 +13,8 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @ConfigurationProperties(prefix = "security")
 class SecurityConfig(
-    var username: String = "",
-    var password: String = "",
+    var username: String = "username",
+    var password: String = "password",
     var passwordAttemptMax: Int = 10
 ) {
     @Bean
