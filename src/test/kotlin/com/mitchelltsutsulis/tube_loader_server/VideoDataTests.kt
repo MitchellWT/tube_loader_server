@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageRequest
 import java.sql.Timestamp
 import java.time.Instant
 
@@ -116,5 +117,56 @@ class VideoDataTests(@Autowired val videoRepository: VideoRepository) {
         assertThat(noQueueVideo.isEmpty).isEqualTo(true)
 
         videoRepository.deleteById(videoSaved.id!!)
+    }
+
+    @Test
+    fun `test getting downloaded videos`() {
+        val video = Video(
+            videoId = "Cool Vid Id",
+            title = "Cool Vid",
+            thumbnail = "https://cool_thumbnail"
+        )
+        val savedVideo = videoRepository.save(video)
+        val downloadedVideo = Video(
+            videoId = "Downloaded Vid Id",
+            title = "Downloaded Vid",
+            thumbnail = "https://downloaded_thumbnail",
+            queued = false,
+            downloaded = true,
+            downloadedAt = Timestamp.from(Instant.now())
+        )
+        val savedDownloadedVideo = videoRepository.save(downloadedVideo)
+        val downloadedList = videoRepository.findAllDownloaded(PageRequest.of(0, 10))
+
+        assertThat(downloadedList.count()).isEqualTo(1)
+        assertThat(downloadedList[0].videoId).isEqualTo("Downloaded Vid Id")
+
+        videoRepository.deleteById(savedVideo.id!!)
+        videoRepository.deleteById(savedDownloadedVideo.id!!)
+    }
+
+    @Test
+    fun `test getting videos that have not been downloaded`() {
+        val video = Video(
+            videoId = "Cool Vid Id",
+            title = "Cool Vid",
+            thumbnail = "https://cool_thumbnail"
+        )
+        val savedVideo = videoRepository.save(video)
+        val downloadedVideo = Video(
+            videoId = "Downloaded Vid Id",
+            title = "Downloaded Vid",
+            thumbnail = "https://downloaded_thumbnail",
+            downloaded = true,
+            downloadedAt = Timestamp.from(Instant.now())
+        )
+        val savedDownloadedVideo = videoRepository.save(downloadedVideo)
+        val notDownloadedList = videoRepository.findAllNotDownloaded(PageRequest.of(0, 10))
+
+        assertThat(notDownloadedList.count()).isEqualTo(1)
+        assertThat(notDownloadedList[0].videoId).isEqualTo("Cool Vid Id")
+
+        videoRepository.deleteById(savedVideo.id!!)
+        videoRepository.deleteById(savedDownloadedVideo.id!!)
     }
 }
