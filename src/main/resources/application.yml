@@ -27,6 +27,7 @@ download:
     - "--format"
     - "mp4"
 
-account:
+security:
   username: "username"
   password: "password"
+  password-attempt-max: 5
