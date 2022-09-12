@@ -1,5 +1,6 @@
 package com.mitchelltsutsulis.tube_loader_server
 
+import com.mitchelltsutsulis.tube_loader_server.config.DownloadConfig
 import com.mitchelltsutsulis.tube_loader_server.storage.VideoRepository
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
