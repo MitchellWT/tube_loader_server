@@ -9,5 +9,6 @@ import org.springframework.context.annotation.Configuration
 data class DownloadConfig(
     var videoStorage: String = "/opt/tube_loader/videos/",
     var downloadCron: String =  "30 * * * * *",
+    var youtubeApiKey: String = "",
     var downloaderConfig: Array<String> = arrayOf()
 )

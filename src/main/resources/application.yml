@@ -19,6 +19,7 @@ spring:
 download:
   video-storage: "/opt/tube_loader/videos/"
   download-cron: "*/30 * * * * *"
+  youtube-api-key: "API_KEY"
   downloader-config:
     - "--no-colors"
     - "--retries"
