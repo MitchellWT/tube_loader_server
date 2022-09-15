@@ -1,23 +1,31 @@
 {
 	"info": {
-		"_postman_id": "7b3094e8-2be2-4732-a9b0-f5541b3bd898",
+		"_postman_id": "76ed110e-946e-428f-83fc-a4f331a91613",
 		"name": "Tube Loader",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20654524"
 	},
 	"item": [
 		{
 			"name": "Show Videos",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "localhost:8383/videos",
+					"raw": "localhost:8383/videos/downloaded",
 					"host": [
 						"localhost"
 					],
 					"port": "8383",
 					"path": [
-						"videos"
+						"videos",
+						"downloaded"
 					]
 				}
 			},
@@ -27,7 +35,13 @@
 			"name": "Show Videos with QueryParams Copy",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "localhost:8383/videos?amount=10&page=1",
 					"host": [
@@ -55,7 +69,13 @@
 			"name": "Show Video",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "localhost:8383/video/:id",
 					"host": [
@@ -80,7 +100,13 @@
 			"name": "Store Video",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"video_id\": 1,\n    \"title\": \"Cool Vid\",\n    \"thumbnail\": \"https://some_cool_thumbnail_url\",\n    \"queued\": false\n}"
@@ -102,7 +128,13 @@
 			"name": "Toggle Video Queued",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "localhost:8383/video/:id/queued",
 					"host": [
@@ -128,7 +160,13 @@
 			"name": "Delete Video",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "localhost:8383/video/:id",
 					"host": [
@@ -153,7 +191,13 @@
 			"name": "Get Queue State",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "localhost:8383/queue",
 					"host": [
@@ -171,7 +215,13 @@
 			"name": "Toggle Queue State",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "localhost:8383/queue",
 					"host": [
