@@ -34,8 +34,8 @@ class VideoQueue(val videoRepository: VideoRepository, val downloadConfig: Downl
             val downloadPB = ProcessBuilder(processArgs)
             do {
                 val downloadProcess = downloadPB.start()
-                logger.info("Output from ${video.title}/${video.videoId} download:")
                 val exitCode = downloadProcess.waitFor()
+                logger.info("Output from ${video.title}/${video.videoId} download:")
                 downloadProcess.inputStream.bufferedReader().readLines().forEach { logger.info(it) }
                 logger.info("YT-DLP exited with exit code: $exitCode")
             } while (exitCode != 0)
