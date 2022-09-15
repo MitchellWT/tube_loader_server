@@ -1,6 +1,7 @@
 package com.mitchelltsutsulis.tube_loader_server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.mitchelltsutsulis.tube_loader_server.config.DownloadConfig
 import com.mitchelltsutsulis.tube_loader_server.storage.Video
 import com.mitchelltsutsulis.tube_loader_server.storage.VideoRepository
 import org.slf4j.LoggerFactory
@@ -9,11 +10,25 @@ import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 @RestController
-class API(val videoRepository: VideoRepository, val videoQueue: VideoQueue) {
+class API(val downloadConfig: DownloadConfig, val videoRepository: VideoRepository, val videoQueue: VideoQueue) {
     private val logger = LoggerFactory.getLogger(javaClass)
     private val objectMapper = jacksonObjectMapper()
+
+    @GetMapping("token", produces = ["application/json"])
+    fun token(httpServletRequest: HttpServletRequest) : ResponseEntity<String> {
+        return try {
+            val res = objectMapper.writeValueAsString(mapOf("key" to downloadConfig.youtubeApiKey))
+            logger.info("Api key given to: ${httpServletRequest.remoteAddr}")
+            ResponseEntity(res, HttpStatus.OK)
+        } catch (e: Exception) {
+            val res = objectMapper.writeValueAsString(mapOf("res" to "fail", "message" to e.message))
+            logger.info("login FAIL res: $res")
+            ResponseEntity(res, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
 
     @GetMapping("videos/downloaded", produces = ["application/json"])
     fun showDownloaded(
