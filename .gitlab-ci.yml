@@ -10,13 +10,27 @@ unit-test:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - gradle clean test --info
-
 cache:
   paths:
     - .gradle/caches
 
-build-and-push:
+build:
   needs: [unit-test]
+  image: gradle:alpine
+  stage: build
+  timeout: 10 minutes
+  variables:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  script:
+    - gradle clean build -x test --info
+cache:
+  paths:
+    - .gradle/caches
+
+push:
+  needs: [build]
   image: docker:latest
   stage: build
   services:
@@ -27,7 +41,7 @@ build-and-push:
     - docker push registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server
 
 deploy:
-  needs: [build-and-push]
+  needs: [push]
   image: docker:git
   stage: deploy
   script: 
