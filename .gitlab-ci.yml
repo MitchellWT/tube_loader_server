@@ -20,6 +20,8 @@ build:
   image: gradle:alpine
   stage: build
   timeout: 10 minutes
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
   variables:
     GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   before_script:
@@ -34,6 +36,8 @@ push:
   needs: [build]
   image: docker:latest
   stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
   services:
     - docker:dind
   script:
@@ -45,6 +49,8 @@ deploy:
   needs: [push]
   image: docker:git
   stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
   script: 
     - git clone https://$GIT_USER:$GIT_TOKEN@gitlab.mitchelltsutsulis.com/mitchellwt/tube_loader_server_deployment.git deployment
     - cd deployment
