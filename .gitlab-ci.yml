@@ -1,3 +1,7 @@
+cache:
+  paths:
+    - .gradle/caches
+
 unit-test:
   image: gradle:alpine
   stage: build
@@ -10,29 +14,30 @@ unit-test:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - gradle clean test --info
-cache:
-  paths:
-    - .gradle/caches
 
 build:
   needs: [unit-test]
   image: gradle:alpine
   stage: build
   timeout: 10 minutes
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
   variables:
     GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - gradle clean build -x test --info
-cache:
-  paths:
-    - .gradle/caches
+  artifacts:
+    paths:
+      - build/libs
 
 push:
   needs: [build]
   image: docker:latest
   stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
   services:
     - docker:dind
   script:
@@ -44,6 +49,8 @@ deploy:
   needs: [push]
   image: docker:git
   stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
   script: 
     - git clone https://$GIT_USER:$GIT_TOKEN@gitlab.mitchelltsutsulis.com/mitchellwt/tube_loader_server_deployment.git deployment
     - cd deployment
