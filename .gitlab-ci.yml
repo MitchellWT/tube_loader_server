@@ -1,3 +1,7 @@
+cache:
+  paths:
+    - .gradle/caches
+
 unit-test:
   image: gradle:alpine
   stage: build
@@ -10,9 +14,6 @@ unit-test:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - gradle clean test --info
-cache:
-  paths:
-    - .gradle/caches
 
 build:
   needs: [unit-test]
@@ -25,9 +26,9 @@ build:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - gradle clean build -x test --info
-cache:
-  paths:
-    - .gradle/caches
+  artifacts:
+    paths:
+      - build/libs
 
 push:
   needs: [build]
