@@ -36,6 +36,7 @@ push:
   needs: [build]
   image: docker:latest
   stage: build
+  timeout: 10 minutes
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
   services:
@@ -49,6 +50,7 @@ deploy:
   needs: [push]
   image: docker:git
   stage: deploy
+  timeout: 10 minutes
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
   script: 
