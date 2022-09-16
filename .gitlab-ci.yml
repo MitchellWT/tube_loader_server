@@ -15,13 +15,23 @@ cache:
   paths:
     - .gradle/caches
 
-#build-and-push:
-#  needs: [unit-test]
-#  image: docker:latest
-#  stage: build
-#  services:
-#    - docker:dind
-#  script:
-#    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD registry.mitchelltsutsulis.com
-#    - docker build -t registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server .
-#    - docker push registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server
+build-and-push:
+  needs: [unit-test]
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD registry.mitchelltsutsulis.com
+    - docker build -t registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server .
+    - docker push registry.mitchelltsutsulis.com/mitchellwt/tube_loader_server
+
+deploy:
+  needs: [build-and-push]
+  image: docker:git
+  stage: deploy
+  script: 
+    - git clone https://$GIT_USER:$GIT_TOKEN@gitlab.mitchelltsutsulis.com/mitchellwt/tube_loader_server_deployment.git deployment
+    - cd deployment
+    - docker compose down
+    - docker compose up -d
