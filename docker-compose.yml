@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+    tubeloader:
+        container_name: tube_loader
+        build: .
+        restart: unless-stopped
+        depends_on:
+            - db
+        volumes:
+            - /opt/tube_loader/config:/config
+            - /opt/tube_loader/videos:/opt/tube_loader/videos
+        ports:
+            - 8383:8383
+    db:
+        container_name: tube_loader_db
+        image: postgres:14.5-alpine
+        restart: unless-stopped
+        volumes:
+            - /opt/tube_loader/db:/var/lib/postgresql/data
+        env_file:
+            - ./.db.env
+
