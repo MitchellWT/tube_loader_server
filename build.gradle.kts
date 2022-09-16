@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.mitchelltsutsulis"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -51,4 +51,10 @@ tasks.test {
 
 tasks.jacocoTestReport {
 	dependsOn(tasks.test)
+}
+
+tasks {
+	bootJar {
+		archiveFileName.set("app.jar")
+	}
 }
